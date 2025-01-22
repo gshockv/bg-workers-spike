@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gshockv.bw.data.BackgroundWorker
+import com.gshockv.bw.ui.UiListState
 import com.gshockv.bw.ui.WorkersViewModel
 import com.gshockv.bw.ui.theme.BackgroundWorkersTheme
 
@@ -34,7 +35,7 @@ fun WorkersListScreen(
   onWorkerClick: (Int) -> Unit,
   modifier: Modifier = Modifier
 ) {
-  val workersList = viewModel.workersList.collectAsState()
+  val uiState = viewModel.uiState.collectAsState()
 
   Scaffold(
     topBar = {
@@ -50,20 +51,27 @@ fun WorkersListScreen(
     Surface(
       modifier = modifier.padding(innerPadding)
     ) {
-      if (workersList.value.isNotEmpty()) {
-        LazyColumn(
-          contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
-        ) {
-          items(workersList.value) {
-            WorkerItem(
-              modifier = Modifier.padding(vertical = 8.dp),
-              worker = it,
-              onClick = onWorkerClick
-            )
+      when (val state = uiState.value) {
+        is UiListState.Loading -> {
+          LoadingView()
+        }
+        is UiListState.Data -> {
+          if (state.workers.isNotEmpty()) {
+            LazyColumn(
+              contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
+            ) {
+              items(state.workers) {
+                WorkerItem(
+                  modifier = Modifier.padding(vertical = 8.dp),
+                  worker = it,
+                  onClick = onWorkerClick
+                )
+              }
+            }
+          } else {
+            EmptyContent()
           }
         }
-      } else {
-        EmptyContent()
       }
     }
   }
