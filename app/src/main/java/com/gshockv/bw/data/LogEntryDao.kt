@@ -11,7 +11,7 @@ interface LogEntryDao {
   fun observeWorkerLogs(workerId: Int): Flow<List<LogEntry>>
 
   @Upsert
-  suspend fun insertLogEntry(entry: LogEntry)
+  suspend fun writeLogEntry(entry: LogEntry)
 
   @Query("DELETE FROM worker_log_entry WHERE workerId = :workerId")
   suspend fun deleteWorkerLogs(workerId: Int)

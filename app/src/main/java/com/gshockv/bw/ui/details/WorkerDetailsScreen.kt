@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -38,7 +39,8 @@ import com.gshockv.bw.ui.theme.BackgroundWorkersTheme
 fun WorkerDetailsScreen(
   viewModel: WorkersViewModel,
   workerId: Int,
-  onBackClicked: () -> Unit
+  onBackClicked: () -> Unit,
+  onNavigateToLogsClicked: (Int) -> Unit
 ) {
   val uiState = viewModel.uiDetailsState.collectAsState()
 
@@ -95,6 +97,22 @@ fun WorkerDetailsScreen(
           modifier = Modifier.padding(horizontal = 8.dp)
         )
       }
+
+      if (workerId > 0) {
+        OutlinedButton(
+          onClick = { onNavigateToLogsClicked(workerId) },
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+              horizontal = 52.dp,
+              vertical = 12.dp
+            )
+            .height(58.dp)
+        ) {
+          Text("Worker Logs")
+        }
+      }
+
       Button(
         onClick = {
           viewModel.saveWorker()
@@ -201,7 +219,8 @@ private fun PreviewWorkerDetails_LightTheme() {
     WorkerDetailsScreen(
       viewModel = hiltViewModel(),
       workerId = 0,
-      onBackClicked = {}
+      onBackClicked = {},
+      onNavigateToLogsClicked = {}
     )
   }
 }
@@ -213,7 +232,8 @@ private fun PreviewWorkerDetails_DarkTheme() {
     WorkerDetailsScreen(
       viewModel = hiltViewModel(),
       workerId = 0,
-      onBackClicked = {}
+      onBackClicked = {},
+      onNavigateToLogsClicked = {}
     )
   }
 }

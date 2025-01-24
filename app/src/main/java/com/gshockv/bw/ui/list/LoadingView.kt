@@ -24,7 +24,6 @@ fun LoadingView(
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     CircularProgressIndicator(
-
       modifier = Modifier.size(88.dp)
     )
   }

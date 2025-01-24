@@ -8,13 +8,18 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Database(
-  entities = [BackgroundWorker::class],
+  entities = [
+    BackgroundWorker::class,
+    LogEntry::class
+  ],
   version = 1,
   exportSchema = false
 )
 @TypeConverters(DataTypeConverter::class)
 abstract class BgWorkerDatabase : RoomDatabase() {
   abstract fun backgroundWorkerDao(): BackgroundWorkerDao
+
+  abstract fun logEntryDao(): LogEntryDao
 }
 
 private class DataTypeConverter {

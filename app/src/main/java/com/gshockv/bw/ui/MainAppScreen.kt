@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.gshockv.bw.ui.details.WorkerDetailsScreen
+import com.gshockv.bw.ui.list.LogViewerScreen
 import com.gshockv.bw.ui.list.WorkersListScreen
 import kotlinx.serialization.Serializable
 
@@ -15,7 +16,10 @@ import kotlinx.serialization.Serializable
 object ListRoute
 
 @Serializable
-data class DetailsRoute(val id: Int)
+data class DetailsRoute(val workerId: Int)
+
+@Serializable
+data class WorkerLogsRoute(val workerId: Int)
 
 @Composable
 fun MainAppScreen() {
@@ -39,10 +43,10 @@ private fun AppNavigationGraph(
       WorkersListScreen(
         viewModel = viewModel,
         onNewWorkerClick = {
-          navController.navigate(DetailsRoute(id = 0))
+          navController.navigate(DetailsRoute(workerId = 0))
         },
         onWorkerClick = { id ->
-          navController.navigate(DetailsRoute(id = id))
+          navController.navigate(DetailsRoute(workerId = id))
         }
       )
     }
@@ -50,11 +54,24 @@ private fun AppNavigationGraph(
     composable<DetailsRoute> { backStackEntry ->
       val route: DetailsRoute = backStackEntry.toRoute()
 
-      // TODO: Load worker details by ID
-
       WorkerDetailsScreen(
         viewModel = viewModel,
-        workerId = route.id,
+        workerId = route.workerId,
+        onNavigateToLogsClicked = { id ->
+          navController.navigate(WorkerLogsRoute(workerId = id))
+        },
+        onBackClicked = {
+          navController.popBackStack()
+        }
+      )
+    }
+
+    composable<WorkerLogsRoute> { backStackEntry ->
+      val route: WorkerLogsRoute = backStackEntry.toRoute()
+
+      LogViewerScreen(
+        viewModel = viewModel,
+        workerId = route.workerId,
         onBackClicked = {
           navController.popBackStack()
         }

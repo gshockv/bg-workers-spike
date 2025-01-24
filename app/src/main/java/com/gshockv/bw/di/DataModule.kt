@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.gshockv.bw.data.BackgroundWorkerDao
 import com.gshockv.bw.data.BgWorkerDatabase
+import com.gshockv.bw.data.LogEntryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,4 +28,7 @@ object DataModule {
 
   @Provides
   fun provideBgWorkerDao(database: BgWorkerDatabase): BackgroundWorkerDao = database.backgroundWorkerDao()
+
+  @Provides
+  fun provideLogEntryDao(database: BgWorkerDatabase): LogEntryDao = database.logEntryDao()
 }
