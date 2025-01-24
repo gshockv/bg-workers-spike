@@ -7,9 +7,8 @@ import androidx.room.PrimaryKey
    tableName = "background_worker"
 )
 data class BackgroundWorker(
-  @PrimaryKey val id: Int,
+  @PrimaryKey(autoGenerate = true) val id: Int,
   val name: String,
   val active: Boolean,
-  val refreshPeriod: Int,
-  val refreshTimeUnit: String
+  val schedulePeriod: SchedulePeriod
 )

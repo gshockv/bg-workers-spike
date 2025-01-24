@@ -27,12 +27,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gshockv.bw.data.BackgroundWorker
+import com.gshockv.bw.data.SchedulePeriod
 import com.gshockv.bw.ui.theme.BackgroundWorkersTheme
 import com.gshockv.bw.ui.theme.IndicatorActiveColor
 import com.gshockv.bw.ui.theme.IndicatorNotActiveColor
@@ -43,9 +45,9 @@ fun WorkerItem(
   onClick: (Int) -> Unit,
   modifier: Modifier = Modifier
 ) {
-  val infoLabel = remember(worker.id) {
+  val infoLabel = remember(worker.active) {
     val activeLabel = if (worker.active) "Active" else "Not Active"
-    "${worker.refreshPeriod} ${worker.refreshTimeUnit} / $activeLabel"
+    "${worker.schedulePeriod.period} ${worker.schedulePeriod.periodUnit} / $activeLabel"
   }
 
   val indicatorColor = remember(worker.active) {
@@ -57,7 +59,7 @@ fun WorkerItem(
   ) {
     Card(
       colors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceVariant
+        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.28f)
       ),
       shape = Shapes().medium,
       border = BorderStroke(
@@ -67,7 +69,9 @@ fun WorkerItem(
       modifier = Modifier
         .fillMaxWidth()
         .height(100.dp)
-        .clickable { onClick(worker.id) },
+        .clickable {
+          onClick(worker.id)
+        },
     ) {
       Row(
         modifier = Modifier.fillMaxWidth()
@@ -79,50 +83,68 @@ fun WorkerItem(
             .padding(12.dp),
           verticalAlignment = Alignment.CenterVertically
         ) {
-          Text(
-            text = "BW",
-            modifier = Modifier
-              .background(
-                color = MaterialTheme.colorScheme.primaryContainer,
-                shape = CircleShape
-              )
-              .size(50.dp)
-              .padding(vertical = 12.dp),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold
-          )
-          Column(
-            modifier = Modifier
-              .fillMaxSize()
-              .padding(start = 12.dp),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center
-          ) {
-            Text(
-              text = worker.name,
-              style = MaterialTheme.typography.bodyLarge,
-              color = MaterialTheme.colorScheme.onPrimaryContainer,
-              maxLines = 1,
-              overflow = TextOverflow.Ellipsis,
-              fontWeight = FontWeight.SemiBold
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-              text = infoLabel,
-              style = MaterialTheme.typography.bodySmall
-            )
-          }
+          AvatarView()
+          WorkerInfo(worker.name, infoLabel)
         }
-        Box(
-          modifier = Modifier
-            .width(96.dp)
-            .fillMaxHeight()
-            .background(indicatorColor)
-        )
+        StatusIndicator(indicatorColor)
       }
     }
   }
+}
+
+@Composable
+private fun WorkerInfo(
+  name: String,
+  infoLabel: String
+) {
+  Column(
+    modifier = Modifier
+      .fillMaxSize()
+      .padding(start = 12.dp),
+    horizontalAlignment = Alignment.Start,
+    verticalArrangement = Arrangement.Center
+  ) {
+    Text(
+      text = name,
+      style = MaterialTheme.typography.bodyLarge,
+      color = MaterialTheme.colorScheme.onPrimaryContainer,
+      maxLines = 1,
+      overflow = TextOverflow.Ellipsis,
+      fontWeight = FontWeight.SemiBold
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    Text(
+      text = infoLabel,
+      style = MaterialTheme.typography.bodySmall
+    )
+  }
+}
+
+@Composable
+private fun AvatarView() {
+  Text(
+    text = "BW",
+    modifier = Modifier
+      .background(
+        color = MaterialTheme.colorScheme.primaryContainer,
+        shape = CircleShape
+      )
+      .size(50.dp)
+      .padding(vertical = 14.dp),
+    textAlign = TextAlign.Center,
+    style = MaterialTheme.typography.titleMedium,
+    fontWeight = FontWeight.Bold
+  )
+}
+
+@Composable
+private fun StatusIndicator(indicatorColor: Color) {
+  Box(
+    modifier = Modifier
+      .width(96.dp)
+      .fillMaxHeight()
+      .background(indicatorColor)
+  )
 }
 
 @Composable
@@ -137,8 +159,7 @@ private fun PreviewItem_Active_LightTheme() {
           id = 0,
           name = "Active Worker",
           active = true,
-          refreshPeriod = 30,
-          refreshTimeUnit = "min"
+          schedulePeriod = SchedulePeriod.THIRTY_MINUTES
         ),
         onClick = { }
       )
@@ -157,8 +178,7 @@ private fun PreviewItem_NotActive_LightTheme() {
           id = 0,
           name = "Active Worker",
           active = false,
-          refreshPeriod = 30,
-          refreshTimeUnit = "min"
+          schedulePeriod = SchedulePeriod.ONE_HOUR
         ),
         onClick = { }
       )
@@ -178,8 +198,7 @@ private fun PreviewItem_Active_DarkTheme() {
           id = 0,
           name = "Active Worker",
           active = true,
-          refreshPeriod = 30,
-          refreshTimeUnit = "min"
+          schedulePeriod = SchedulePeriod.FORTY_FIVE_MINUTES
         ),
         onClick = { }
       )
@@ -199,8 +218,7 @@ private fun PreviewItem_NotActive_DarkTheme() {
           id = 0,
           name = "Active Worker",
           active = false,
-          refreshPeriod = 30,
-          refreshTimeUnit = "min"
+          schedulePeriod = SchedulePeriod.FIFTEEN_MINUTES
         ),
         onClick = { }
       )

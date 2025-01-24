@@ -39,8 +39,7 @@ class BackgroundWorkerDaoTest {
       id = 1,
       name = "Worker 1",
       active = true,
-      refreshPeriod = 30,
-      refreshTimeUnit = "min"
+      schedulePeriod = SchedulePeriod.FIFTEEN_MINUTES
     )
     database.backgroundWorkerDao().upsert(worker)
 
@@ -56,8 +55,7 @@ class BackgroundWorkerDaoTest {
       id = 1,
       name = "Inserted Worker",
       active = true,
-      refreshPeriod = 10,
-      refreshTimeUnit = "min"
+       schedulePeriod = SchedulePeriod.THIRTY_MINUTES
     )
     database.backgroundWorkerDao().upsert(worker)
 
@@ -71,8 +69,7 @@ class BackgroundWorkerDaoTest {
       id = 1,
       name = "A Worker",
       active = false,
-      refreshPeriod = 10,
-      refreshTimeUnit = "min"
+      schedulePeriod = SchedulePeriod.ONE_HOUR
     )
     database.backgroundWorkerDao().upsert(worker)
 
@@ -92,8 +89,7 @@ class BackgroundWorkerDaoTest {
       id = 1,
       name = "Active Worker",
       active = true,
-      refreshPeriod = 10,
-      refreshTimeUnit = "min"
+      schedulePeriod = SchedulePeriod.FIFTEEN_MINUTES
     )
     database.backgroundWorkerDao().upsert(worker)
     assertTrue(database.backgroundWorkerDao().load(worker.id).active)
@@ -108,8 +104,7 @@ class BackgroundWorkerDaoTest {
       id = 1,
       name = "Not Active Worker",
       active = false,
-      refreshPeriod = 10,
-      refreshTimeUnit = "min"
+      schedulePeriod = SchedulePeriod.FORTY_FIVE_MINUTES
     )
     database.backgroundWorkerDao().upsert(worker)
     assertFalse(database.backgroundWorkerDao().load(worker.id).active)
@@ -124,8 +119,7 @@ class BackgroundWorkerDaoTest {
        id = 42,
        name = "Bg Worker",
        active = true,
-       refreshPeriod = 10,
-       refreshTimeUnit = "min"
+       schedulePeriod = SchedulePeriod.THIRTY_MINUTES
      )
     database.backgroundWorkerDao().upsert(worker)
 

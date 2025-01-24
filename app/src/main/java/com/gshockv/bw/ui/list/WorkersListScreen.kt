@@ -1,6 +1,7 @@
 package com.gshockv.bw.ui.list
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.gshockv.bw.data.BackgroundWorker
 import com.gshockv.bw.ui.UiListState
 import com.gshockv.bw.ui.WorkersViewModel
 import com.gshockv.bw.ui.theme.BackgroundWorkersTheme
@@ -35,7 +35,7 @@ fun WorkersListScreen(
   onWorkerClick: (Int) -> Unit,
   modifier: Modifier = Modifier
 ) {
-  val uiState = viewModel.uiState.collectAsState()
+  val uiState = viewModel.uiListState.collectAsState()
 
   Scaffold(
     topBar = {
@@ -58,11 +58,11 @@ fun WorkersListScreen(
         is UiListState.Data -> {
           if (state.workers.isNotEmpty()) {
             LazyColumn(
-              contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
+              contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
+              verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
               items(state.workers) {
                 WorkerItem(
-                  modifier = Modifier.padding(vertical = 8.dp),
                   worker = it,
                   onClick = onWorkerClick
                 )

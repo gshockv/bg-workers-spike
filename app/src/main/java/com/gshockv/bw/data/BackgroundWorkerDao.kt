@@ -13,7 +13,7 @@ interface BackgroundWorkerDao {
   fun observeAll(): Flow<List<BackgroundWorker>>
 
   @Query("SELECT * FROM background_worker WHERE id = :workerId")
-  fun load(workerId: Int): BackgroundWorker
+  suspend fun load(workerId: Int): BackgroundWorker
 
   @Upsert
   suspend fun upsert(worker: BackgroundWorker)

@@ -53,7 +53,8 @@ private fun AppNavigationGraph(
       // TODO: Load worker details by ID
 
       WorkerDetailsScreen(
-        worker = null,
+        viewModel = viewModel,
+        workerId = route.id,
         onBackClicked = {
           navController.popBackStack()
         }
