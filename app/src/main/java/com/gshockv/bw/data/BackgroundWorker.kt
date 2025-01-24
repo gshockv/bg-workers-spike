@@ -11,4 +11,8 @@ data class BackgroundWorker(
   val name: String,
   val active: Boolean,
   val schedulePeriod: SchedulePeriod
-)
+) {
+  override fun toString(): String {
+    return "$id-$name:$schedulePeriod"
+  }
+}

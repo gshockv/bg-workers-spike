@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BackgroundWorkerDao {
-
   @Query("SELECT * FROM background_worker")
   fun observeAll(): Flow<List<BackgroundWorker>>
 
@@ -23,5 +22,4 @@ interface BackgroundWorkerDao {
 
   @Delete
   suspend fun delete(worker: BackgroundWorker)
-
 }
