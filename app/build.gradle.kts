@@ -54,6 +54,8 @@ dependencies {
 
   implementation(libs.kotlinx.serialization.json )
 
+  implementation(libs.workmanager.ktx)
+
   testImplementation(libs.junit)
 
   androidTestImplementation(libs.androidx.junit)
