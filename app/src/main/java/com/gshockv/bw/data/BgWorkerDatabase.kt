@@ -1,11 +1,10 @@
 package com.gshockv.bw.data
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Database(
   entities = [
@@ -15,37 +14,26 @@ import java.time.format.DateTimeFormatter
   version = 1,
   exportSchema = false
 )
-@TypeConverters(DataTypeConverter::class)
+@TypeConverters(DataTypeConverters::class)
 abstract class BgWorkerDatabase : RoomDatabase() {
   abstract fun backgroundWorkerDao(): BackgroundWorkerDao
 
   abstract fun logEntryDao(): LogEntryDao
-}
 
-private class DataTypeConverter {
-  private val dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+  companion object {
+    @Volatile private var instance: BgWorkerDatabase? = null
 
-  @TypeConverter
-  fun fromSchedulePeriod(value: SchedulePeriod?): Int? {
-    return value?.ordinal
-  }
-
-  @TypeConverter
-  fun toSchedulePeriod(value: Int?): SchedulePeriod? {
-    return value?.let {
-      SchedulePeriod.entries[it]
+    fun instance(context: Context): BgWorkerDatabase {
+      return instance ?: synchronized(this){
+        instance ?: buildDatabase(context).also {
+          instance = it
+        }
+      }
     }
-  }
 
-  @TypeConverter
-  fun fromLocalDateTimeToString(value: LocalDateTime?): String? {
-    return value?.format(dateTimeFormatter)
-  }
-
-  @TypeConverter
-  fun toLocalDateTime(value: String?): LocalDateTime? {
-    return value?.let {
-      LocalDateTime.parse(it, dateTimeFormatter)
+    private fun buildDatabase(context: Context): BgWorkerDatabase {
+      return Room.databaseBuilder(context, BgWorkerDatabase::class.java, "BgWorker.db")
+        .build()
     }
   }
 }
