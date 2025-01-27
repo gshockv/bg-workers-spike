@@ -2,20 +2,15 @@ package com.gshockv.bw.task
 
 import android.content.Context
 import android.util.Log
-import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.gshockv.bw.data.BgWorkerDatabase
 import com.gshockv.bw.data.LogEntry
-import com.gshockv.bw.data.LogEntryRepository
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import java.time.LocalDateTime
 
-@HiltWorker
-class BackgroundWorkerPayload @AssistedInject constructor(
-  @Assisted context: Context,
-  @Assisted params: WorkerParameters,
-  private val logRepo: LogEntryRepository
+class BackgroundWorkerPayload(
+  val context: Context,
+  val params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 
   init {
@@ -37,13 +32,14 @@ class BackgroundWorkerPayload @AssistedInject constructor(
     val logEntry = LogEntry(
       id = 0,
       workerId = workerId,
-      workerInfo = "Worker info = ($workerInfo)",
+      workerInfo = workerInfo ?: "Worker info for ($workerId)",
       recordCreated = LocalDateTime.now()
     )
 
     Log.d(TAG, "Trying to record log entry (${logEntry.workerInfo})")
 
-    logRepo.writeLogEntry(logEntry)
+    val logDao = BgWorkerDatabase.getInstance(context).logEntryDao()
+    logDao.writeLogEntry( logEntry)
 
     return Result.success()
   }

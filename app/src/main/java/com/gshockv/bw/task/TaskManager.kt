@@ -96,7 +96,7 @@ class TaskManager @Inject constructor(
 
     val result = WorkManager.getInstance(context).enqueueUniquePeriodicWork(
       uniqueWorkName = worker.uniqueId,
-      existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.REPLACE,
+      existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
       request = request
     )
     Log.d(TAG, "Worker($worker) enqueue result = ${result.state.value}")

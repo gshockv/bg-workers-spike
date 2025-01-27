@@ -120,7 +120,7 @@ private fun LogViewer(
         supportingContent = {
           Text(
             text = logEntry.recordCreated.format(
-              DateTimeFormatter.ofPattern("HH:mm, DD-mm-HHHH"))
+              DateTimeFormatter.ofPattern("HH:mm, DD-mm-yyyy"))
           )
         }
       )

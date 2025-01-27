@@ -14,7 +14,7 @@ import kotlinx.coroutines.SupervisorJob
 
 @Module
 @InstallIn(SingletonComponent::class)
-object WorkerModule {
+object TaskModule {
 
   @Provides
   fun provideCoroutineScope(): CoroutineScope {
