@@ -29,6 +29,7 @@ class TaskManager @Inject constructor(
     coroutineScope.launch {
       workersRepository.loadActiveWorkers().collect { workers ->
         println("Found ${workers.size} active BG workers")
+
         workers.forEach { worker ->
           tryToScheduleWorker(worker)
         }
@@ -95,7 +96,7 @@ class TaskManager @Inject constructor(
 
     val result = WorkManager.getInstance(context).enqueueUniquePeriodicWork(
       uniqueWorkName = worker.uniqueId,
-      existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
+      existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.REPLACE,
       request = request
     )
     Log.d(TAG, "Worker($worker) enqueue result = ${result.state.value}")

@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.gshockv.bw.ui.details.WorkerDetailsScreen
-import com.gshockv.bw.ui.list.LogViewerScreen
+import com.gshockv.bw.ui.logs.LogViewerScreen
 import com.gshockv.bw.ui.list.WorkersListScreen
 import kotlinx.serialization.Serializable
 

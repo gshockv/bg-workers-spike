@@ -1,4 +1,4 @@
-package com.gshockv.bw.ui.list
+package com.gshockv.bw.ui.logs
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gshockv.bw.data.LogEntry
 import com.gshockv.bw.ui.UiLogEntriesState
 import com.gshockv.bw.ui.WorkersViewModel
+import com.gshockv.bw.ui.list.LoadingView
 import com.gshockv.bw.ui.theme.BackgroundWorkersTheme
 import java.time.format.DateTimeFormatter
 
@@ -32,8 +33,7 @@ import java.time.format.DateTimeFormatter
 fun LogViewerScreen(
   viewModel: WorkersViewModel,
   workerId: Int,
-  onBackClicked: () -> Unit,
-  modifier: Modifier = Modifier
+  onBackClicked: () -> Unit
 ) {
   val entriesState = viewModel.logEntries.collectAsStateWithLifecycle()
 

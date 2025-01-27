@@ -18,6 +18,10 @@ class BackgroundWorkerPayload @AssistedInject constructor(
   private val logRepo: LogEntryRepository
 ) : CoroutineWorker(context, params) {
 
+  init {
+    Log.d(TAG, "BackgroundWorkerPayload INITIALIZED...")
+  }
+
   companion object {
     val TAG = BackgroundWorkerPayload::class.simpleName
     const val WORKER_ID_PARAM = "worker_id"
@@ -36,6 +40,8 @@ class BackgroundWorkerPayload @AssistedInject constructor(
       workerInfo = "Worker info = ($workerInfo)",
       recordCreated = LocalDateTime.now()
     )
+
+    Log.d(TAG, "Trying to record log entry (${logEntry.workerInfo})")
 
     logRepo.writeLogEntry(logEntry)
 

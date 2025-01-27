@@ -21,6 +21,8 @@ class BackgroundWorkersApp : Application(), Configuration.Provider {
     taskManager.scheduleBackgroundWorkers()
   }
 
+
+
   override val workManagerConfiguration: Configuration
     get() = Configuration.Builder()
       .setWorkerFactory(workerFactory)
