@@ -44,7 +44,6 @@ dependencies {
   implementation(platform(libs.compose.bom))
   implementation(libs.bundles.ui)
   debugImplementation(libs.compose.ui.tooling)
-  debugImplementation(libs.compose.ui.test.manifest)
 
   implementation(libs.bundles.room)
   ksp(libs.room.compiler)
@@ -55,12 +54,16 @@ dependencies {
   implementation(libs.kotlinx.serialization.json )
 
   implementation(libs.workmanager.ktx)
+  implementation(libs.hilt.workmanager)
 
   testImplementation(libs.junit)
 
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
   androidTestImplementation(platform(libs.compose.bom))
+
   androidTestImplementation(libs.compose.ui.test.junit4)
+  debugImplementation(libs.compose.ui.test.manifest)
+  
   androidTestImplementation(libs.room.testing)
 }

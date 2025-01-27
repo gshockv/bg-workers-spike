@@ -16,7 +16,7 @@ androidx-hilt-navigation-compose = "1.2.0"
 room = "2.6.1"
 hilt = "2.52"
 hiltExt = "1.0.0"
-
+hilt-work = "1.2.0"
 workmanager = "2.10.0"
 
 junit = "4.13.2"
@@ -47,10 +47,12 @@ hilt-core = { group = "com.google.dagger", name = "hilt-android", version.ref = 
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt-navigation-compose" }
 hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+hilt-workmanager = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work" }
 
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
 workmanager-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workmanager" }
+
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

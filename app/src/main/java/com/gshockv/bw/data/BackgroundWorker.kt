@@ -13,6 +13,9 @@ data class BackgroundWorker(
   val schedulePeriod: SchedulePeriod
 ) {
   override fun toString(): String {
-    return "$id-$name:$schedulePeriod"
+    return uniqueId
   }
+
+  val uniqueId: String
+    get() = "$id-$name:$schedulePeriod"
 }

@@ -11,6 +11,9 @@ interface BackgroundWorkerDao {
   @Query("SELECT * FROM background_worker")
   fun observeAll(): Flow<List<BackgroundWorker>>
 
+  @Query("SELECT * FROM background_worker WHERE active = true")
+  fun loadActiveWorkers(): Flow<List<BackgroundWorker>>
+
   @Query("SELECT * FROM background_worker WHERE id = :workerId")
   suspend fun load(workerId: Int): BackgroundWorker
 

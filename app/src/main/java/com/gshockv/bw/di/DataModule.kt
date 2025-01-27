@@ -1,6 +1,7 @@
 package com.gshockv.bw.di
 
 import android.content.Context
+import androidx.room.Room
 import com.gshockv.bw.data.BackgroundWorkerDao
 import com.gshockv.bw.data.BgWorkerDatabase
 import com.gshockv.bw.data.LogEntryDao
@@ -18,7 +19,11 @@ object DataModule {
   @Singleton
   @Provides
   fun provideDatabase(@ApplicationContext context: Context): BgWorkerDatabase {
-    return BgWorkerDatabase.instance(context)
+    return Room.databaseBuilder(
+      context.applicationContext,
+      BgWorkerDatabase::class.java,
+      "BgWorker.db"
+    ).build()
   }
 
   @Provides

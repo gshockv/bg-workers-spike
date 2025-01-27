@@ -128,4 +128,37 @@ class BackgroundWorkerDaoTest {
     database.backgroundWorkerDao().delete(worker)
     assertNull(database.backgroundWorkerDao().load(worker.id))
   }
+
+  @Test
+  fun loadActiveWorkers() = runTest {
+    val testWorkers = prepareWorkers()
+
+    val allWorkersCount = testWorkers.size
+    val activeWorkersCount = testWorkers.filter { it.active }.size
+
+    testWorkers.forEach {
+      database.backgroundWorkerDao().upsert(it)
+    }
+
+    assertEquals(allWorkersCount,
+      database.backgroundWorkerDao().observeAll().first().size)
+    assertEquals(activeWorkersCount,
+      database.backgroundWorkerDao().loadActiveWorkers().first().size)
+  }
+
+  private fun prepareWorkers() = listOf(
+    prepareTestWorker("worker_1", true),
+    prepareTestWorker("worker_2", true),
+    prepareTestWorker("worker_3", false),
+    prepareTestWorker("worker_4", false),
+    prepareTestWorker("worker_5", true)
+  )
+
+  private fun prepareTestWorker(name: String, active: Boolean) =
+    BackgroundWorker(
+      id = 0,
+      name = name,
+      active = active,
+      schedulePeriod = SchedulePeriod.FIFTEEN_MINUTES
+    )
 }
